@@ -5,7 +5,6 @@ import com.example.there.convertermvi.domain.repository.ICurrencyExchangeRatesDa
 import com.example.there.convertermvi.domain.repository.ICurrencyExchangeRatesRepository
 import io.reactivex.Completable
 import io.reactivex.Single
-import java.io.InvalidObjectException
 import javax.inject.Inject
 
 class CurrencyRepository @Inject constructor(
@@ -17,10 +16,13 @@ class CurrencyRepository @Inject constructor(
 
     override fun insert(cer: CurrencyExchangeRates): Completable = cacheDataStore.insert(cer)
 
-    override fun get(base: String): Single<CurrencyExchangeRates> = cacheDataStore.get(base)
-            .flatMap {
-                if (it.isValid) Single.just(it)
-                else Single.error { InvalidObjectException("Cached value is not valid (outdated).") }
-            }
-            .onErrorResumeNext(remoteDataStore.get(base))
+    override fun get(base: String): Single<CurrencyExchangeRates> {
+        val remoteSource = remoteDataStore.get(base)
+        return cacheDataStore.get(base)
+                .flatMap {
+                    if (it.isValid) Single.just(it)
+                    else remoteSource
+                }
+                .onErrorResumeNext(remoteSource)
+    }
 }
