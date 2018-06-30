@@ -49,4 +49,7 @@ ext {
     mockitoKotlinVersion = '1.5.0'
     roomVersion = '1.1.1'
     constraintLayoutVersion = '1.1.2'
+    gsonVersion = '2.8.1'
+    okHttpVersion = '3.8.1'
+    retrofitVersion = '2.3.0'
 }
