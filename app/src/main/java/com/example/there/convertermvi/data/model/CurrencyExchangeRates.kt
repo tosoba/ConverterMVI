@@ -19,7 +19,7 @@ data class CurrencyExchangeRates(
     val date: Date,
 
     @TypeConverters(ExchangeRatesTypeConverter::class)
-    val rates: ExchangeRates
+    val rates: Map<String, Double>
 ) {
     val isValid: Boolean
         @SuppressLint("SimpleDateFormat")

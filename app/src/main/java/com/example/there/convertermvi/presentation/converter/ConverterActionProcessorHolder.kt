@@ -11,13 +11,37 @@ class ConverterActionProcessorHolder @Inject constructor(
     private val loadCurrencyExchangeRatesProcessor = ObservableTransformer<
             ConverterAction.LoadCurrencyExchangeRates,
             ConverterResult.LoadCurrencyExchangeRatesResult> {
-        it.switchMap {
-            getCurrencyExchangeRates.execute(params = it.baseCurrency)
+        it.switchMap { action ->
+            getCurrencyExchangeRates.execute(params = action.baseCurrency)
                     .toObservable()
-                    .map { ConverterResult.LoadCurrencyExchangeRatesResult.Success(it) }
+                    .map {
+                        ConverterResult.LoadCurrencyExchangeRatesResult.Success(
+                                exchangeRates = it,
+                                baseCurrency = action.baseCurrency
+                        )
+                    }
                     .cast(ConverterResult.LoadCurrencyExchangeRatesResult::class.java)
                     .onErrorReturn { ConverterResult.LoadCurrencyExchangeRatesResult.Failure(it) }
                     .startWith(ConverterResult.LoadCurrencyExchangeRatesResult.InFlight)
+        }
+    }
+
+    private val loadCurrencyExchangeRatesWithChosenCurrencyProcessor = ObservableTransformer<
+            ConverterAction.LoadCurrencyExchangeRatesWithChosenCurrency,
+            ConverterResult.LoadCurrencyExchangeRatesWithChosenCurrencyResult> {
+        it.switchMap { action ->
+            getCurrencyExchangeRates.execute(params = action.baseCurrency)
+                    .toObservable()
+                    .map {
+                        ConverterResult.LoadCurrencyExchangeRatesWithChosenCurrencyResult.Success(
+                                exchangeRates = it,
+                                baseCurrency = action.baseCurrency,
+                                chosenCurrency = action.chosenCurrency
+                        )
+                    }
+                    .cast(ConverterResult.LoadCurrencyExchangeRatesWithChosenCurrencyResult::class.java)
+                    .onErrorReturn { ConverterResult.LoadCurrencyExchangeRatesWithChosenCurrencyResult.Failure(it) }
+                    .startWith(ConverterResult.LoadCurrencyExchangeRatesWithChosenCurrencyResult.InFlight)
         }
     }
 
@@ -62,6 +86,8 @@ class ConverterActionProcessorHolder @Inject constructor(
             Observable.merge(
                     shared.ofType(ConverterAction.LoadCurrencyExchangeRates::class.java)
                             .compose(loadCurrencyExchangeRatesProcessor),
+                    shared.ofType(ConverterAction.LoadCurrencyExchangeRatesWithChosenCurrency::class.java)
+                            .compose(loadCurrencyExchangeRatesWithChosenCurrencyProcessor),
                     shared.ofType(ConverterAction.ChangeChosenCurrencyAndRecalculate::class.java)
                             .compose(changeChosenCurrencyAndRecalculateProcessor),
                     shared.ofType(ConverterAction.ChangeBaseCurrencyValueAndRecalculate::class.java)
@@ -69,9 +95,9 @@ class ConverterActionProcessorHolder @Inject constructor(
                     .mergeWith(
                             shared.filter {
                                 it !is ConverterAction.LoadCurrencyExchangeRates
+                                        && it !is ConverterAction.LoadCurrencyExchangeRatesWithChosenCurrency
                                         && it !is ConverterAction.ChangeChosenCurrencyAndRecalculate
                                         && it !is ConverterAction.ChangeBaseCurrencyValueAndRecalculate
-
                             }.flatMap {
                                 Observable.error<ConverterResult>(IllegalArgumentException("Unknown Action type: $it"))
                             }
