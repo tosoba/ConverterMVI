@@ -2,4 +2,6 @@
     <string name="app_name">ConverterMVI</string>
     <string name="convert_currencies">Convert currencies:</string>
     <string name="reverse_currencies">Reverse currencies</string>
+    <string name="default_base_currency">USD</string>
+    <string name="default_chosen_currency">EUR</string>
 </resources>

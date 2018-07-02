@@ -41,14 +41,14 @@ class ConverterViewModel @Inject constructor(
 
     private fun actionFromIntent(intent: ConverterIntent): ConverterAction = when (intent) {
         is ConverterIntent.InitialIntent ->
-            ConverterAction.LoadCurrencyExchangeRatesWithChosenCurrency(intent.initialBaseCurrency, intent.initialChosenCurrency)
+            ConverterAction.LoadExchangeRatesAndUpdateChosenCurrency(intent.initialBaseCurrency, intent.initialChosenCurrency)
         is ConverterIntent.ReverseCurrenciesIntent ->
-            ConverterAction.LoadCurrencyExchangeRatesWithChosenCurrency(intent.newBaseCurrency, intent.newChosenCurrency)
+            ConverterAction.LoadExchangeRatesAndUpdateChosenCurrency(intent.newBaseCurrency, intent.newChosenCurrency)
         is ConverterIntent.ChangeBaseCurrencyIntent ->
-            ConverterAction.LoadCurrencyExchangeRates(intent.newBaseCurrency)
+            ConverterAction.LoadExchangeRates(intent.newBaseCurrency)
         is ConverterIntent.ChangeChosenCurrencyIntent ->
             ConverterAction.ChangeChosenCurrencyAndRecalculate(intent.baseCurrency, intent.newChosenCurrency)
-        is ConverterIntent.ChangeBaseCurrencyInputValueIntent ->
+        is ConverterIntent.ChangeBaseCurrencyValueIntent ->
             ConverterAction.ChangeBaseCurrencyValueAndRecalculate(intent.baseCurrency, intent.newValue)
     }
 

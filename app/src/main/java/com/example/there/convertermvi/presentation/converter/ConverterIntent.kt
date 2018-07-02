@@ -22,7 +22,7 @@ sealed class ConverterIntent : MviIntent {
             val newChosenCurrency: String
     ) : ConverterIntent()
 
-    data class ChangeBaseCurrencyInputValueIntent(
+    data class ChangeBaseCurrencyValueIntent(
             val baseCurrency: String,
             val newValue: Double
     ) : ConverterIntent()

@@ -9,7 +9,7 @@ class ConverterActionProcessorHolder @Inject constructor(
         private val getCurrencyExchangeRates: GetCurrencyExchangeRates
 ) {
     private val loadCurrencyExchangeRatesProcessor = ObservableTransformer<
-            ConverterAction.LoadCurrencyExchangeRates,
+            ConverterAction.LoadExchangeRates,
             ConverterResult.LoadCurrencyExchangeRatesResult> {
         it.switchMap { action ->
             getCurrencyExchangeRates.execute(params = action.baseCurrency)
@@ -27,7 +27,7 @@ class ConverterActionProcessorHolder @Inject constructor(
     }
 
     private val loadCurrencyExchangeRatesWithChosenCurrencyProcessor = ObservableTransformer<
-            ConverterAction.LoadCurrencyExchangeRatesWithChosenCurrency,
+            ConverterAction.LoadExchangeRatesAndUpdateChosenCurrency,
             ConverterResult.LoadCurrencyExchangeRatesWithChosenCurrencyResult> {
         it.switchMap { action ->
             getCurrencyExchangeRates.execute(params = action.baseCurrency)
@@ -84,9 +84,9 @@ class ConverterActionProcessorHolder @Inject constructor(
     val actionProcessor = ObservableTransformer<ConverterAction, ConverterResult> {
         it.publish { shared ->
             Observable.merge(
-                    shared.ofType(ConverterAction.LoadCurrencyExchangeRates::class.java)
+                    shared.ofType(ConverterAction.LoadExchangeRates::class.java)
                             .compose(loadCurrencyExchangeRatesProcessor),
-                    shared.ofType(ConverterAction.LoadCurrencyExchangeRatesWithChosenCurrency::class.java)
+                    shared.ofType(ConverterAction.LoadExchangeRatesAndUpdateChosenCurrency::class.java)
                             .compose(loadCurrencyExchangeRatesWithChosenCurrencyProcessor),
                     shared.ofType(ConverterAction.ChangeChosenCurrencyAndRecalculate::class.java)
                             .compose(changeChosenCurrencyAndRecalculateProcessor),
@@ -94,8 +94,8 @@ class ConverterActionProcessorHolder @Inject constructor(
                             .compose(changeBaseCurrencyValueAndRecalculate))
                     .mergeWith(
                             shared.filter {
-                                it !is ConverterAction.LoadCurrencyExchangeRates
-                                        && it !is ConverterAction.LoadCurrencyExchangeRatesWithChosenCurrency
+                                it !is ConverterAction.LoadExchangeRates
+                                        && it !is ConverterAction.LoadExchangeRatesAndUpdateChosenCurrency
                                         && it !is ConverterAction.ChangeChosenCurrencyAndRecalculate
                                         && it !is ConverterAction.ChangeBaseCurrencyValueAndRecalculate
                             }.flatMap {

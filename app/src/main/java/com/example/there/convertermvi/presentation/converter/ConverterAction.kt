@@ -3,9 +3,9 @@ package com.example.there.convertermvi.presentation.converter
 import com.example.there.convertermvi.mvi.MviAction
 
 sealed class ConverterAction : MviAction {
-    data class LoadCurrencyExchangeRates(val baseCurrency: String) : ConverterAction()
+    data class LoadExchangeRates(val baseCurrency: String) : ConverterAction()
 
-    data class LoadCurrencyExchangeRatesWithChosenCurrency(
+    data class LoadExchangeRatesAndUpdateChosenCurrency(
             val baseCurrency: String,
             val chosenCurrency: String
     ) : ConverterAction()

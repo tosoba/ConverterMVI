@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".presentation.converter.ConverterActivity"
-    tools:layout_editor_absoluteY="81dp">
+    tools:layout_editor_absoluteY="81dp"
+    android:id="@+id/main_container_layout">
 
     <ImageView
         android:id="@+id/main_logo_image_view"
@@ -39,7 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_marginStart="15dp"
-        android:text="USD"
+        android:text="@string/default_base_currency"
         app:layout_constraintBaseline_toBaselineOf="@+id/base_currency_value_edit_text"
         app:layout_constraintEnd_toStartOf="@+id/base_currency_value_edit_text"
         app:layout_constraintStart_toStartOf="parent" />
@@ -50,6 +51,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="15dp"
         android:layout_marginRight="15dp"
+        android:inputType="numberDecimal"
         app:layout_constraintBottom_toTopOf="@+id/chosen_currency_value_text_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -62,7 +64,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_marginStart="15dp"
-        android:text="EUR"
+        android:text="@string/default_chosen_currency"
         app:layout_constraintBaseline_toBaselineOf="@+id/chosen_currency_value_text_view"
         app:layout_constraintEnd_toStartOf="@+id/chosen_currency_value_text_view"
         app:layout_constraintHorizontal_chainStyle="packed"
