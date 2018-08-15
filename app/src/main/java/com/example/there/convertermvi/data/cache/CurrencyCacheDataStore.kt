@@ -7,7 +7,7 @@ import io.reactivex.Completable
 import io.reactivex.Single
 import javax.inject.Inject
 
-class CurrencyCacheDataStore @Inject constructor(
+open class CurrencyCacheDataStore @Inject constructor(
         currencyExchangeRatesDb: CurrencyExchangeRatesDb
 ): ICurrencyExchangeRatesDataStore {
 

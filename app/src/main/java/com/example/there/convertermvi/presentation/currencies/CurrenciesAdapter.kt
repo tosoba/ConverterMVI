@@ -34,6 +34,8 @@ class CurrenciesAdapter(
             }
             if (currencyCode == previouslyChosenCurrency.code) {
                 it.currency_item_check_image_view.visibility = View.VISIBLE
+            } else {
+                it.currency_item_check_image_view.visibility = View.GONE
             }
         }
     }

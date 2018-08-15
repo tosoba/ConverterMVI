@@ -6,7 +6,7 @@ import com.example.there.convertermvi.domain.usecase.base.SingleUseCase
 import io.reactivex.Scheduler
 import io.reactivex.Single
 
-class GetCurrencyExchangeRates(
+open class GetCurrencyExchangeRates(
         private val repository: ICurrencyExchangeRatesRepository,
         threadScheduler: Scheduler,
         postThreadScheduler: Scheduler

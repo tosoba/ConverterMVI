@@ -9,7 +9,7 @@ import io.reactivex.Single
 import javax.inject.Inject
 import javax.inject.Named
 
-class CurrencyRepository @Inject constructor(
+open class CurrencyRepository @Inject constructor(
         @Named(Dependencies.remoteDataStore)
         private val remoteDataStore: ICurrencyExchangeRatesDataStore,
 

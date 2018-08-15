@@ -7,7 +7,7 @@ import io.reactivex.Completable
 import io.reactivex.Single
 import javax.inject.Inject
 
-class CurrencyRemoteDataStore @Inject constructor(
+open class CurrencyRemoteDataStore @Inject constructor(
         private val service: ExchangeRatesService
 ): ICurrencyExchangeRatesDataStore {
 

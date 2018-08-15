@@ -39,7 +39,6 @@ class ConverterActivity : AppCompatActivity(), MviView<ConverterIntent, Converte
                 .get(ConverterViewModel::class.java)
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AndroidInjection.inject(this)
