@@ -16,7 +16,7 @@ object ExchangeRatesServiceFactory {
     )
 
     private fun makeExchangeRatesService(okHttpClient: OkHttpClient, gson: Gson): ExchangeRatesService = Retrofit.Builder()
-            .baseUrl("https://exchangeratesapi.io/api/")
+            .baseUrl("https://api.exchangeratesapi.io/")
             .client(okHttpClient)
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create(gson))
