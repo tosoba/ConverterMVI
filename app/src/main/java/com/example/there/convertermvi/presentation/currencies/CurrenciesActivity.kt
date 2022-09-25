@@ -3,16 +3,17 @@ package com.example.there.convertermvi.presentation.currencies
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.there.convertermvi.R
 import com.example.there.convertermvi.presentation.Currency
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_currencies.*
 
-class CurrenciesActivity: AppCompatActivity() {
-
-    private val passedCurrency: Currency by lazy { intent.getParcelableExtra<Currency>(EXTRA_CURRENCY) }
+class CurrenciesActivity : AppCompatActivity() {
+    private val passedCurrency: Currency by lazy {
+        intent.getParcelableExtra(EXTRA_CURRENCY)!!
+    }
 
     private val currenciesAdapter: CurrenciesAdapter by lazy { CurrenciesAdapter(passedCurrency) }
 
@@ -27,7 +28,12 @@ class CurrenciesActivity: AppCompatActivity() {
     }
 
     private fun initViews() {
-        currencies_recycler_view?.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        currencies_recycler_view?.layoutManager =
+            LinearLayoutManager(
+                this,
+                LinearLayoutManager.VERTICAL,
+                false
+            )
         currencies_recycler_view?.adapter = currenciesAdapter
     }
 
@@ -61,7 +67,12 @@ class CurrenciesActivity: AppCompatActivity() {
         const val REQUEST_CODE = 100
 
         fun start(activity: Activity, currency: Currency) {
-            val intent = Intent(activity, CurrenciesActivity::class.java).apply { putExtra(EXTRA_CURRENCY, currency) }
+            val intent = Intent(activity, CurrenciesActivity::class.java).apply {
+                putExtra(
+                    EXTRA_CURRENCY,
+                    currency
+                )
+            }
             activity.startActivityForResult(intent, REQUEST_CODE)
         }
     }

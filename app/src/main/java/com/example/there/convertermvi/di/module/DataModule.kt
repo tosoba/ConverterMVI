@@ -1,7 +1,7 @@
 package com.example.there.convertermvi.di.module
 
 import android.app.Application
-import android.arch.persistence.room.Room
+import androidx.room.Room
 import com.example.there.convertermvi.BuildConfig
 import com.example.there.convertermvi.data.CurrencyRepository
 import com.example.there.convertermvi.data.cache.CurrencyCacheDataStore
@@ -35,14 +35,16 @@ abstract class DataModule {
     companion object {
         @Provides
         @JvmStatic
-        fun exchangeRatesService(): ExchangeRatesService = ExchangeRatesServiceFactory.makeExchangeRatesService(BuildConfig.DEBUG)
+        fun exchangeRatesService(): ExchangeRatesService =
+            ExchangeRatesServiceFactory.makeExchangeRatesService(BuildConfig.DEBUG)
 
         @Provides
         @JvmStatic
-        fun currencyExchangeRatesDatabase(application: Application): CurrencyExchangeRatesDb = Room.databaseBuilder(
+        fun currencyExchangeRatesDatabase(application: Application): CurrencyExchangeRatesDb =
+            Room.databaseBuilder(
                 application.applicationContext,
                 CurrencyExchangeRatesDb::class.java,
                 "cer.db"
-        ).build()
+            ).build()
     }
 }

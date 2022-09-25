@@ -1,9 +1,9 @@
 package com.example.there.convertermvi.data.model
 
 import android.annotation.SuppressLint
-import android.arch.persistence.room.Entity
-import android.arch.persistence.room.PrimaryKey
-import android.arch.persistence.room.TypeConverters
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
 import com.example.there.convertermvi.data.cache.converter.DateTypeConverters
 import com.example.there.convertermvi.data.cache.converter.ExchangeRatesTypeConverter
 import com.example.there.convertermvi.data.cache.db.Tables

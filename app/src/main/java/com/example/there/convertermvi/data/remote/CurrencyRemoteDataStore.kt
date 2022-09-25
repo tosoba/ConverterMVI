@@ -8,12 +8,13 @@ import io.reactivex.Single
 import javax.inject.Inject
 
 open class CurrencyRemoteDataStore @Inject constructor(
-        private val service: ExchangeRatesService
-): ICurrencyExchangeRatesDataStore {
-
+    private val service: ExchangeRatesService
+) : ICurrencyExchangeRatesDataStore {
     override fun clearAll(): Completable = throw UnsupportedOperationException()
 
-    override fun insert(cer: CurrencyExchangeRates): Completable = throw UnsupportedOperationException()
+    override fun insert(cer: CurrencyExchangeRates): Completable =
+        throw UnsupportedOperationException()
 
-    override fun get(base: String): Single<CurrencyExchangeRates> = service.getExchangeRates(base)
+    override fun get(base: String): Single<CurrencyExchangeRates> =
+        service.getExchangeRates(base)
 }

@@ -15,7 +15,6 @@ import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 
 class CurrencyRepositoryTest {
-
     @Mock
     private lateinit var remoteDataStore: CurrencyRemoteDataStore
 

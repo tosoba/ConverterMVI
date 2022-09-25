@@ -1,22 +1,20 @@
 package com.example.there.convertermvi
 
-import android.app.Activity
-import android.app.Application
 import com.example.there.convertermvi.di.AppInjector
+import com.example.there.convertermvi.di.DaggerAppComponent
 import dagger.android.AndroidInjector
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasActivityInjector
-import javax.inject.Inject
+import dagger.android.DaggerApplication
 
-class ConverterApp: Application(), HasActivityInjector {
-
+class ConverterApp : DaggerApplication() {
     override fun onCreate() {
         super.onCreate()
         AppInjector.init(this)
     }
 
-    @Inject
-    lateinit var activityDispatchingAndroidInjector: DispatchingAndroidInjector<Activity>
-
-    override fun activityInjector(): AndroidInjector<Activity> = activityDispatchingAndroidInjector
+    override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
+       return DaggerAppComponent
+           .builder()
+           .application(this)
+           .build()
+    }
 }

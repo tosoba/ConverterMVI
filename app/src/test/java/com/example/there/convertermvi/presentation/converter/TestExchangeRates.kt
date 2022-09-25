@@ -5,16 +5,16 @@ import java.util.*
 
 object TestExchangeRates {
     val eurBased = CurrencyExchangeRates(
-            base = "EUR",
-            date = Date(),
-            rates = mapOf("USD" to 1.1, "GBP" to 0.9)
+        base = "EUR",
+        date = Date(),
+        rates = mapOf("USD" to 1.1, "GBP" to 0.9)
     )
 
     val usdBased = CurrencyExchangeRates(
-            base = "USD",
-            date = Date(),
-            rates = mapOf("EUR" to 0.9, "GBP" to 0.8)
+        base = "USD",
+        date = Date(),
+        rates = mapOf("EUR" to 0.9, "GBP" to 0.8)
     )
 
-    val invalid = TestExchangeRates.usdBased.copy(date = Date(1999, 5, 12))
+    val invalid = usdBased.copy(date = Date(1999, 5, 12))
 }

@@ -10,9 +10,10 @@ import io.reactivex.schedulers.Schedulers
 @Module
 class DomainModule {
     @Provides
-    fun getCurrencyExchangeRates(repository: ICurrencyExchangeRatesRepository): GetCurrencyExchangeRates = GetCurrencyExchangeRates(
+    fun getCurrencyExchangeRates(repository: ICurrencyExchangeRatesRepository): GetCurrencyExchangeRates =
+        GetCurrencyExchangeRates(
             repository = repository,
             threadScheduler = Schedulers.io(),
             postThreadScheduler = AndroidSchedulers.mainThread()
-    )
+        )
 }

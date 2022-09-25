@@ -4,26 +4,26 @@ import com.example.there.convertermvi.mvi.MviIntent
 
 sealed class ConverterIntent : MviIntent {
     data class InitialIntent(
-            val initialBaseCurrency: String,
-            val initialChosenCurrency: String
-    ): ConverterIntent()
+        val initialBaseCurrency: String,
+        val initialChosenCurrency: String
+    ) : ConverterIntent()
 
     data class ReverseCurrenciesIntent(
-            val newBaseCurrency: String,
-            val newChosenCurrency: String
+        val newBaseCurrency: String,
+        val newChosenCurrency: String
     ) : ConverterIntent()
 
     data class ChangeBaseCurrencyIntent(
-            val newBaseCurrency: String
+        val newBaseCurrency: String
     ) : ConverterIntent()
 
     data class ChangeChosenCurrencyIntent(
-            val baseCurrency: String,
-            val newChosenCurrency: String
+        val baseCurrency: String,
+        val newChosenCurrency: String
     ) : ConverterIntent()
 
     data class ChangeBaseCurrencyValueIntent(
-            val baseCurrency: String,
-            val newValue: Double
+        val baseCurrency: String,
+        val newValue: Double
     ) : ConverterIntent()
 }

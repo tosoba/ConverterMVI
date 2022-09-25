@@ -41,11 +41,20 @@ class ConverterViewModelTest {
         usdBasedCurrencyExchangeRates = TestExchangeRates.usdBased
         eurBasedCurrencyExchangeRates = TestExchangeRates.eurBased
 
-        converterViewModel = ConverterViewModel(ConverterActionProcessorHolder(getCurrencyExchangeRates))
+        converterViewModel =
+            ConverterViewModel(ConverterActionProcessorHolder(getCurrencyExchangeRates))
         testObserver = converterViewModel.states().test()
 
-        whenever(getCurrencyExchangeRates.execute(baseCurrencyUSD)).thenReturn(Single.just(usdBasedCurrencyExchangeRates))
-        whenever(getCurrencyExchangeRates.execute(baseCurrencyEUR)).thenReturn(Single.just(eurBasedCurrencyExchangeRates))
+        whenever(getCurrencyExchangeRates.execute(baseCurrencyUSD)).thenReturn(
+            Single.just(
+                usdBasedCurrencyExchangeRates
+            )
+        )
+        whenever(getCurrencyExchangeRates.execute(baseCurrencyEUR)).thenReturn(
+            Single.just(
+                eurBasedCurrencyExchangeRates
+            )
+        )
     }
 
     @Test
@@ -55,7 +64,14 @@ class ConverterViewModelTest {
 
     @Test
     fun initialIntentIsProcessedSuccessfully() {
-        converterViewModel.processIntents(Observable.just(ConverterIntent.InitialIntent(baseCurrencyUSD, chosenCurrencyEUR)))
+        converterViewModel.processIntents(
+            Observable.just(
+                ConverterIntent.InitialIntent(
+                    baseCurrencyUSD,
+                    chosenCurrencyEUR
+                )
+            )
+        )
 
         verify(getCurrencyExchangeRates).execute(baseCurrencyUSD)
         testObserver.assertValueAt(1, ConverterViewState::isLoading)
@@ -64,72 +80,83 @@ class ConverterViewModelTest {
 
     @Test
     fun changeBaseCurrencyValueIntentIsProcessedSuccessfully() {
-        converterViewModel.processIntents(Observable.just(
+        converterViewModel.processIntents(
+            Observable.just(
                 ConverterIntent.InitialIntent(baseCurrencyUSD, chosenCurrencyEUR),
                 ConverterIntent.ChangeBaseCurrencyValueIntent(baseCurrencyUSD, 5.0)
-        ))
+            )
+        )
 
         verify(getCurrencyExchangeRates, times(2)).execute(baseCurrencyUSD)
         testObserver.assertValueAt(4) {
             !it.isLoading && it.baseCurrency == baseCurrencyUSD
-                    && it.chosenCurrency == chosenCurrencyEUR && it.baseCurrencyValue == 5.0
-                    && it.conversionResult == "4.5"
-                    && it.descriptionText == "1 $baseCurrencyUSD = ${usdBasedCurrencyExchangeRates.rates[chosenCurrencyEUR]} $chosenCurrencyEUR as of ${usdBasedCurrencyExchangeRates.date}"
-                    && it.error == null
+                && it.chosenCurrency == chosenCurrencyEUR && it.baseCurrencyValue == 5.0
+                && it.conversionResult == "4.5"
+                && it.descriptionText == "1 $baseCurrencyUSD = ${usdBasedCurrencyExchangeRates.rates[chosenCurrencyEUR]} $chosenCurrencyEUR as of ${usdBasedCurrencyExchangeRates.date}"
+                && it.error == null
         }
     }
 
     @Test
     fun changeChosenCurrencyIntentIsProcessedSuccessfully() {
-        converterViewModel.processIntents(Observable.just(
+        converterViewModel.processIntents(
+            Observable.just(
                 ConverterIntent.InitialIntent(baseCurrencyUSD, chosenCurrencyEUR),
                 ConverterIntent.ChangeBaseCurrencyValueIntent(baseCurrencyUSD, 5.0),
                 ConverterIntent.ChangeChosenCurrencyIntent(baseCurrencyUSD, chosenCurrencyGBP)
-        ))
+            )
+        )
 
         verify(getCurrencyExchangeRates, times(3)).execute(baseCurrencyUSD)
         testObserver.assertValueAt(6) {
             !it.isLoading && it.baseCurrency == baseCurrencyUSD
-                    && it.chosenCurrency == chosenCurrencyGBP && it.baseCurrencyValue == 5.0
-                    && it.conversionResult == "4.0"
-                    && it.descriptionText == "1 $baseCurrencyUSD = ${usdBasedCurrencyExchangeRates.rates[chosenCurrencyGBP]} $chosenCurrencyGBP as of ${usdBasedCurrencyExchangeRates.date}"
-                    && it.error == null
+                && it.chosenCurrency == chosenCurrencyGBP && it.baseCurrencyValue == 5.0
+                && it.conversionResult == "4.0"
+                && it.descriptionText == "1 $baseCurrencyUSD = ${usdBasedCurrencyExchangeRates.rates[chosenCurrencyGBP]} $chosenCurrencyGBP as of ${usdBasedCurrencyExchangeRates.date}"
+                && it.error == null
         }
     }
 
     @Test
     fun changeBaseCurrencyIntentIsProcessedSuccessfully() {
-        converterViewModel.processIntents(Observable.just(
+        converterViewModel.processIntents(
+            Observable.just(
                 ConverterIntent.InitialIntent(baseCurrencyUSD, chosenCurrencyGBP),
                 ConverterIntent.ChangeBaseCurrencyValueIntent(baseCurrencyUSD, 5.0),
                 ConverterIntent.ChangeBaseCurrencyIntent(baseCurrencyEUR)
-        ))
+            )
+        )
 
         verify(getCurrencyExchangeRates).execute(baseCurrencyEUR)
         testObserver.assertValueAt(6) {
             !it.isLoading && it.baseCurrency == baseCurrencyEUR
-                    && it.chosenCurrency == chosenCurrencyGBP && it.baseCurrencyValue == 5.0
-                    && it.conversionResult == "4.5"
-                    && it.descriptionText == "1 $baseCurrencyEUR = ${eurBasedCurrencyExchangeRates.rates[chosenCurrencyGBP]} $chosenCurrencyGBP as of ${usdBasedCurrencyExchangeRates.date}"
-                    && it.error == null
+                && it.chosenCurrency == chosenCurrencyGBP && it.baseCurrencyValue == 5.0
+                && it.conversionResult == "4.5"
+                && it.descriptionText == "1 $baseCurrencyEUR = ${eurBasedCurrencyExchangeRates.rates[chosenCurrencyGBP]} $chosenCurrencyGBP as of ${usdBasedCurrencyExchangeRates.date}"
+                && it.error == null
         }
     }
 
     @Test
     fun reverseCurrenciesIntentIsProcessedSuccessfully() {
-        converterViewModel.processIntents(Observable.just(
+        converterViewModel.processIntents(
+            Observable.just(
                 ConverterIntent.InitialIntent(baseCurrencyUSD, chosenCurrencyEUR),
                 ConverterIntent.ChangeBaseCurrencyValueIntent(baseCurrencyUSD, 5.0),
-                ConverterIntent.ReverseCurrenciesIntent(newBaseCurrency = chosenCurrencyEUR, newChosenCurrency = baseCurrencyUSD)
-        ))
+                ConverterIntent.ReverseCurrenciesIntent(
+                    newBaseCurrency = chosenCurrencyEUR,
+                    newChosenCurrency = baseCurrencyUSD
+                )
+            )
+        )
 
         verify(getCurrencyExchangeRates).execute(baseCurrencyEUR)
         testObserver.assertValueAt(6) {
             !it.isLoading && it.baseCurrency == baseCurrencyEUR
-                    && it.chosenCurrency == baseCurrencyUSD && it.baseCurrencyValue == 5.0
-                    && it.conversionResult == "5.5"
-                    && it.descriptionText == "1 $baseCurrencyEUR = ${eurBasedCurrencyExchangeRates.rates[baseCurrencyUSD]} $baseCurrencyUSD as of ${eurBasedCurrencyExchangeRates.date}"
-                    && it.error == null
+                && it.chosenCurrency == baseCurrencyUSD && it.baseCurrencyValue == 5.0
+                && it.conversionResult == "5.5"
+                && it.descriptionText == "1 $baseCurrencyEUR = ${eurBasedCurrencyExchangeRates.rates[baseCurrencyUSD]} $baseCurrencyUSD as of ${eurBasedCurrencyExchangeRates.date}"
+                && it.error == null
         }
     }
 }

@@ -9,7 +9,7 @@ import javax.inject.Singleton
 @Module
 object TestDomainModule {
     @Provides
-    @JvmStatic
     @Singleton
-    fun getCurrencyExchangeRates(): GetCurrencyExchangeRates = mock(GetCurrencyExchangeRates::class.java)
+    fun getCurrencyExchangeRates(): GetCurrencyExchangeRates =
+        mock(GetCurrencyExchangeRates::class.java)
 }

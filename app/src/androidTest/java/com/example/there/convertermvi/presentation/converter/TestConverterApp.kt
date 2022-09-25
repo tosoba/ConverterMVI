@@ -1,31 +1,21 @@
 package com.example.there.convertermvi.presentation.converter
 
-import android.app.Activity
-import android.app.Application
-import android.support.test.InstrumentationRegistry
+import androidx.test.platform.app.InstrumentationRegistry
 import com.example.there.convertermvi.presentation.converter.di.DaggerTestAppComponent
 import com.example.there.convertermvi.presentation.converter.di.TestAppComponent
 import dagger.android.AndroidInjector
-import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasActivityInjector
-import javax.inject.Inject
+import dagger.android.DaggerApplication
 
-class TestConverterApp : Application(), HasActivityInjector {
-    @Inject
-    lateinit var injector: DispatchingAndroidInjector<Activity>
-
-    override fun activityInjector(): AndroidInjector<Activity> = injector
-
+class TestConverterApp : DaggerApplication() {
     private lateinit var appComponent: TestAppComponent
 
-    override fun onCreate() {
-        super.onCreate()
+    override fun applicationInjector(): AndroidInjector<out DaggerApplication> {
         appComponent = DaggerTestAppComponent.builder().application(this).build()
-        appComponent.inject(this)
+        return appComponent
     }
 
     companion object {
         fun appComponent(): TestAppComponent =
-                (InstrumentationRegistry.getTargetContext().applicationContext as TestConverterApp).appComponent
+            (InstrumentationRegistry.getInstrumentation().targetContext.applicationContext as TestConverterApp).appComponent
     }
 }

@@ -6,27 +6,31 @@ import com.example.there.convertermvi.mvi.MviResult
 sealed class ConverterResult : MviResult {
     sealed class LoadCurrencyExchangeRatesResult : ConverterResult() {
         data class Success(
-                val exchangeRates: CurrencyExchangeRates,
-                val baseCurrency: String
+            val exchangeRates: CurrencyExchangeRates,
+            val baseCurrency: String
         ) : LoadCurrencyExchangeRatesResult()
+
         data class Failure(val error: Throwable) : LoadCurrencyExchangeRatesResult()
         object InFlight : LoadCurrencyExchangeRatesResult()
     }
 
     sealed class LoadCurrencyExchangeRatesWithChosenCurrencyResult : ConverterResult() {
         data class Success(
-                val exchangeRates: CurrencyExchangeRates,
-                val baseCurrency: String,
-                val chosenCurrency: String
+            val exchangeRates: CurrencyExchangeRates,
+            val baseCurrency: String,
+            val chosenCurrency: String
         ) : LoadCurrencyExchangeRatesWithChosenCurrencyResult()
-        data class Failure(val error: Throwable) : LoadCurrencyExchangeRatesWithChosenCurrencyResult()
+
+        data class Failure(val error: Throwable) :
+            LoadCurrencyExchangeRatesWithChosenCurrencyResult()
+
         object InFlight : LoadCurrencyExchangeRatesWithChosenCurrencyResult()
     }
 
     sealed class ChangeChosenCurrencyAndRecalculateResult : ConverterResult() {
         data class Success(
-                val exchangeRates: CurrencyExchangeRates,
-                val newChosenCurrency: String
+            val exchangeRates: CurrencyExchangeRates,
+            val newChosenCurrency: String
         ) : ChangeChosenCurrencyAndRecalculateResult()
 
         data class Failure(val error: Throwable) : ChangeChosenCurrencyAndRecalculateResult()
@@ -35,8 +39,8 @@ sealed class ConverterResult : MviResult {
 
     sealed class ChangeBaseCurrencyValueResult : ConverterResult() {
         data class Success(
-                val exchangeRates: CurrencyExchangeRates,
-                val newValue: Double
+            val exchangeRates: CurrencyExchangeRates,
+            val newValue: Double
         ) : ChangeBaseCurrencyValueResult()
 
         data class Failure(val error: Throwable) : ChangeBaseCurrencyValueResult()

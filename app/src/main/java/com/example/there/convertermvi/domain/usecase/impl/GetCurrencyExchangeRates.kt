@@ -7,10 +7,10 @@ import io.reactivex.Scheduler
 import io.reactivex.Single
 
 open class GetCurrencyExchangeRates(
-        private val repository: ICurrencyExchangeRatesRepository,
-        threadScheduler: Scheduler,
-        postThreadScheduler: Scheduler
-): SingleUseCase<CurrencyExchangeRates, String>(threadScheduler, postThreadScheduler) {
-
-    override fun buildUseCaseObservable(params: String?): Single<CurrencyExchangeRates> = repository.get(params!!)
+    private val repository: ICurrencyExchangeRatesRepository,
+    threadScheduler: Scheduler,
+    postThreadScheduler: Scheduler
+) : SingleUseCase<CurrencyExchangeRates, String>(threadScheduler, postThreadScheduler) {
+    override fun buildUseCaseSingle(params: String?): Single<CurrencyExchangeRates> =
+        repository.get(params!!)
 }

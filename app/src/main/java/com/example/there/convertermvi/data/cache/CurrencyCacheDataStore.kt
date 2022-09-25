@@ -8,9 +8,8 @@ import io.reactivex.Single
 import javax.inject.Inject
 
 open class CurrencyCacheDataStore @Inject constructor(
-        currencyExchangeRatesDb: CurrencyExchangeRatesDb
-): ICurrencyExchangeRatesDataStore {
-
+    currencyExchangeRatesDb: CurrencyExchangeRatesDb
+) : ICurrencyExchangeRatesDataStore {
     private val exchangeRatesDao = currencyExchangeRatesDb.currencyExchangeRatesDao()
 
     override fun clearAll(): Completable = Completable.fromCallable {
@@ -21,5 +20,6 @@ open class CurrencyCacheDataStore @Inject constructor(
         exchangeRatesDao.insert(cer)
     }
 
-    override fun get(base: String): Single<CurrencyExchangeRates> = exchangeRatesDao.get(base)
+    override fun get(base: String): Single<CurrencyExchangeRates> =
+        exchangeRatesDao.get(base)
 }

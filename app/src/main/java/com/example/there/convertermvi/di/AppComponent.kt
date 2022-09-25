@@ -5,17 +5,22 @@ import com.example.there.convertermvi.ConverterApp
 import com.example.there.convertermvi.di.module.*
 import dagger.BindsInstance
 import dagger.Component
+import dagger.android.AndroidInjector
+import dagger.android.support.AndroidSupportInjectionModule
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [
-    AppModule::class,
-    DataModule::class,
-    DomainModule::class,
-    PresentationModule::class,
-    BuilderModule::class
-])
-interface AppComponent {
+@Component(
+    modules = [
+        AndroidSupportInjectionModule::class,
+        AppModule::class,
+        DataModule::class,
+        DomainModule::class,
+        PresentationModule::class,
+        BuilderModule::class
+    ]
+)
+interface AppComponent : AndroidInjector<ConverterApp> {
     @Component.Builder
     interface Builder {
         @BindsInstance
@@ -23,6 +28,4 @@ interface AppComponent {
 
         fun build(): AppComponent
     }
-
-    fun inject(app: ConverterApp)
 }

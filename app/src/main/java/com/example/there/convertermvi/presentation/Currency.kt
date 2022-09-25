@@ -4,13 +4,13 @@ import android.os.Parcel
 import android.os.Parcelable
 
 data class Currency(
-        val code: String,
-        val type: Type
-): Parcelable {
+    val code: String,
+    val type: Type
+) : Parcelable {
 
     constructor(parcel: Parcel) : this(
-            parcel.readString(),
-            parcel.readSerializable() as Type
+        parcel.readString()!!,
+        parcel.readSerializable() as Type
     )
 
     override fun writeToParcel(parcel: Parcel?, flags: Int) {
